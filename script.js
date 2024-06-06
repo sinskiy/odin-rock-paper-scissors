@@ -7,6 +7,6 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  const randomTool = prompt("Choose a tool");
-  return randomTool;
+  const choice = prompt("Choose a tool");
+  return choice;
 }
