@@ -11,12 +11,11 @@ function playGame() {
   printGameWinner();
 
   function playRounds(rounds) {
-    for (let i = 0; i < rounds; i++) {
-      const humanSelection = getHumanChoice();
-      const computerSelection = getComputerChoice();
-
-      playRound(humanSelection, computerSelection);
-    }
+    // for (let i = 0; i < rounds; i++) {
+    //   const humanSelection = getHumanChoice();
+    //   const computerSelection = getComputerChoice();
+    //   playRound(humanSelection, computerSelection);
+    // }
   }
 
   function playRound(humanChoice, computerChoice) {
