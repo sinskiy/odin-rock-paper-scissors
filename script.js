@@ -9,19 +9,9 @@ function playGame() {
     button.addEventListener("click", handleButtonClick)
   );
 
+  const winner = document.querySelector("#winner");
   let humanScore = 0;
   let computerScore = 0;
-
-  playRounds(DEFAULT_ROUNDS);
-  printGameWinner();
-
-  function playRounds(rounds) {
-    // for (let i = 0; i < rounds; i++) {
-    //   const humanSelection = getHumanChoice();
-    //   const computerSelection = getComputerChoice();
-    //   playRound(humanSelection, computerSelection);
-    // }
-  }
 
   function handleButtonClick(e) {
     const humanChoice = e.target.id;
@@ -31,32 +21,59 @@ function playGame() {
 
   function playRound(humanChoice, computerChoice) {
     const result = document.querySelector("#result");
-    const computerScoreElem = document.querySelector("#computer-score");
-    const humanScoreElem = document.querySelector("#human-score");
 
-    const choicesDifference =
-      TOOLS.indexOf(humanChoice) - TOOLS.indexOf(computerChoice);
-    if (choicesDifference === 0) {
-      result.textContent = `Draw! ${humanChoice} is the same as ${computerChoice}`;
-    } else if (choicesDifference === 1 || choicesDifference === -2) {
-      result.textContent = `You win! ${humanChoice} beats ${computerChoice}`;
-      humanScore += 1;
-      humanScoreElem.textContent = humanScore;
-    } else {
-      result.textContent = `You loose! ${computerChoice} beats ${humanChoice}`;
-      computerScore += 1;
-      computerScoreElem.textContent = computerScore;
+    const winner = getWinner(humanChoice, computerChoice);
+    switch (winner) {
+      case "draw":
+        result.textContent = `Draw! ${humanChoice} is the same as ${computerChoice}`;
+        break;
+
+      case "human":
+        result.textContent = `You win! ${humanChoice} beats ${computerChoice}`;
+        humanScore += 1;
+        break;
+
+      case "computer":
+        result.textContent = `You loose! ${computerChoice} beats ${humanChoice}`;
+        computerScore += 1;
+        break;
     }
+
+    if (computerScore === DEFAULT_ROUNDS || humanScore === DEFAULT_ROUNDS) {
+      printGameWinner();
+
+      humanScore = 0;
+      computerScore = 0;
+    }
+
+    updateScoreText();
   }
 
   function printGameWinner() {
     if (humanScore > computerScore) {
-      console.log("You win the game");
-    } else if (humanScore < computerScore) {
-      console.log("Computer wins the game");
+      winner.textContent = "You win the game";
     } else {
-      console.log("Draw");
+      winner.textContent = "Computer wins the game";
     }
+  }
+
+  const computerScoreElem = document.querySelector("#computer-score");
+  const humanScoreElem = document.querySelector("#human-score");
+  function updateScoreText() {
+    humanScoreElem.textContent = humanScore;
+    computerScoreElem.textContent = computerScore;
+  }
+}
+
+function getWinner(humanChoice, computerChoice) {
+  const choicesDifference =
+    TOOLS.indexOf(humanChoice) - TOOLS.indexOf(computerChoice);
+  if (choicesDifference === 0) {
+    return "draw";
+  } else if (choicesDifference === 1 || choicesDifference === -2) {
+    return "human";
+  } else {
+    return "computer";
   }
 }
 
