@@ -4,6 +4,13 @@ const DEFAULT_ROUNDS = 5;
 playGame();
 
 function playGame() {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) =>
+    button.addEventListener("click", (e) =>
+      playRound(e.target.id, getComputerChoice())
+    )
+  );
+
   let humanScore = 0;
   let computerScore = 0;
 
