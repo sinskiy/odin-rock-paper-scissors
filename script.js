@@ -6,9 +6,7 @@ playGame();
 function playGame() {
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) =>
-    button.addEventListener("click", (e) =>
-      playRound(e.target.id, getComputerChoice())
-    )
+    button.addEventListener("click", handleButtonClick)
   );
 
   let humanScore = 0;
@@ -25,17 +23,29 @@ function playGame() {
     // }
   }
 
+  function handleButtonClick(e) {
+    const humanChoice = e.target.id;
+    const computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+  }
+
   function playRound(humanChoice, computerChoice) {
+    const result = document.querySelector("#result");
+    const computerScoreElem = document.querySelector("#computer-score");
+    const humanScoreElem = document.querySelector("#human-score");
+
     const choicesDifference =
       TOOLS.indexOf(humanChoice) - TOOLS.indexOf(computerChoice);
     if (choicesDifference === 0) {
-      console.log(`Draw! ${humanChoice} is the same as ${computerChoice}`);
+      result.textContent = `Draw! ${humanChoice} is the same as ${computerChoice}`;
     } else if (choicesDifference === 1 || choicesDifference === -2) {
-      console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+      result.textContent = `You win! ${humanChoice} beats ${computerChoice}`;
       humanScore += 1;
+      humanScoreElem.textContent = humanScore;
     } else {
-      console.log(`You loose! ${computerChoice} beats ${humanChoice}`);
+      result.textContent = `You loose! ${computerChoice} beats ${humanChoice}`;
       computerScore += 1;
+      computerScoreElem.textContent = computerScore;
     }
   }
 
@@ -48,14 +58,6 @@ function playGame() {
       console.log("Draw");
     }
   }
-}
-
-function getHumanChoice() {
-  let choice = "";
-  do {
-    choice = prompt("Choose a tool: rock, paper, scissors").toLowerCase();
-  } while (TOOLS.indexOf(choice) === -1);
-  return choice;
 }
 
 function getComputerChoice() {
